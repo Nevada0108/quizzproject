@@ -1,5 +1,5 @@
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "firebase/app";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
     import {
@@ -71,7 +71,7 @@ export const initLogin = () => {
 
             // Đăng nhập thành công, chuyển hướng sau 1 giây
             showMessage(elements.succsess, 'Đăng nhập thành công', false);
-            setTimeout(() => window.location.href = 'dashboard.html', 1000);
+            setTimeout(() => window.location.href = 'index.html', 1000);
         } catch (error) {
             console.log(error)
             handleError(error, elements.error);

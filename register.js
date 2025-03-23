@@ -1,5 +1,5 @@
     // Import the functions you need from the SDKs you need
-    import { initializeApp } from "firebase/app";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
     import {
@@ -43,46 +43,6 @@ const handleError = (error, errorElement) => {
     errorElement.textContent = messages[error.code] || 'Có lỗi xảy ra. Vui lòng thử lại';
 };
 
-export const initLogin = () => {
-
-    // Lấy các DOM dữ liệu cần thiết
-    const elements = {
-        form: document.getElementById('loginForm'),
-        error: document.getElementById('errorMessage'),
-        succsess: document.getElementById('successMessage'),
-        registerLink: document.getElementById('registerLink'),
-        email: document.getElementById('email'),
-        password: document.getElementById('password')
-    };
-
-    // Xử lý submit form đăng nhập
-    elements.form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        elements.error.style.display = 'none';
-        elements.succsess.style.display = 'none';
-
-        try {
-            // Đăng nhập người dùng
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                elements.email.value,
-                elements.password.value
-            );
-
-            // Đăng nhập thành công, chuyển hướng sau 1 giây
-            showMessage(elements.succsess, 'Đăng nhập thành công', false);
-            setTimeout(() => window.location.href = 'dashboard.html', 1000);
-        } catch (error) {
-            console.log(error)
-            handleError(error, elements.error);
-        }
-    });
-
-    // Chuyển hướng đến trang đăng ký
-    elements.registerLink.addEventListener('click', () => {
-        window.location.href = 'register.html';
-    });
-}
 
 export const initRegister = () => {
 
