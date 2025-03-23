@@ -1,0 +1,67 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game - Vui Học Mỗi Ngày</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="logo">🎉 Quiz Game</h1>
+            <div class="auth-section">
+                <button class="login-btn" onclick="window.location.href='login.html'">Đăng nhập</button>
+                <button class="signup-btn">Đăng ký</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm chủ đề...">
+            <select id="filterSelect">
+                <option value="all">Tất cả</option>
+                <option value="10">Dưới 15 câu</option>
+                <option value="15">15 câu trở lên</option>
+            </select>
+        </div>
+
+        <div class="featured-bar" id="featuredBar">
+            <!-- Thanh chủ đề nổi bật -->
+        </div>
+
+        <section class="featured-section">
+            <h2 class="section-title">✨ Chủ đề nổi bật ✨</h2>
+            <div class="featured-grid" id="featuredGrid">
+                <!-- Chủ đề nổi bật -->
+            </div>
+        </section>
+
+        <h2 class="subtitle">Chọn chủ đề và bắt đầu thử thách nào!</h2>
+        <div class="topics-container" id="topicsContainer">
+            <!-- Chủ đề chính và chủ đề nhỏ -->
+        </div>
+
+        <div class="decoration">
+            <span class="dot dot1"></span>
+            <span class="dot dot2"></span>
+            <span class="dot dot3"></span>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>© 2025 Quiz Game. Tất cả quyền được bảo lưu.</p>
+            <div class="footer-links">
+                <a href="#">Giới thiệu</a>
+                <a href="#">Liên hệ</a>
+                <a href="#">Điều khoản</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

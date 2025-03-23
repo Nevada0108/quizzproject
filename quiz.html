@@ -1,0 +1,32 @@
+<!-- quiz.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Thử Thách Kiến Thức</title>
+    <link rel="stylesheet" href="./quiz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="quiz-header">
+        <h1 id="quizTitle">Quiz</h1>
+        <div class="timer">Thời gian: <span id="timeLeft">60</span>s</div>
+    </header>
+
+    <div class="quiz-container">
+        <div class="question-section">
+            <h2 id="questionText">Câu hỏi đang tải...</h2>
+            <div class="options" id="optionsContainer">
+                <!-- Đáp án sẽ được thêm bằng JavaScript -->
+            </div>
+            <button id="nextBtn" disabled>Tiếp theo</button>
+        </div>
+        <div class="progress">
+            <p>Câu <span id="currentQuestion">1</span> / <span id="totalQuestions">0</span></p>
+        </div>
+    </div>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
