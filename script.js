@@ -1,198 +1,205 @@
-// script.js
-const topics = [
-    {
-        id: 1,
-        title: "Kiến thức chung",
-        subtopics: [
-            { id: 11, title: "Văn hóa", description: "Câu hỏi về văn hóa thế giới", questions: 10, featured: true },
-            { id: 12, title: "Lịch sử", description: "Kiến thức lịch sử Việt Nam và thế giới", questions: 12 }
-        ]
-    },
-    {
-        id: 2,
-        title: "Toán học",
-        subtopics: [
-            { id: 21, title: "Hình học", description: "Câu hỏi về hình học phẳng và không gian", questions: 15, featured: true },
-            { id: 22, title: "Toán số", description: "Các bài toán số học cơ bản", questions: 10 }
-        ]
-    },
-    {
-        id: 3,
-        title: "Công nghệ",
-        subtopics: [
-            { id: 31, title: "Lập trình", description: "Kiến thức lập trình cơ bản", questions: 12 }
-        ]
-    },
-    {
-        id: 4,
-        title: "Tiếng Anh",
-        subtopics: [
-            { id: 41, title: "Ngữ pháp", description: "Kiểm tra ngữ pháp tiếng Anh", questions: 20, featured: true },
-            { id: 42, title: "Từ vựng", description: "Mở rộng vốn từ tiếng Anh", questions: 15 }
-        ]
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCNOAnAd3eilEIz88EZYLwRQmQi2gIYpp0",
+    authDomain: "spck-jsi-d16b4.firebaseapp.com",
+    databaseURL: "https://spck-jsi-d16b4-default-rtdb.firebaseio.com",
+    projectId: "spck-jsi-d16b4",
+    storageBucket: "spck-jsi-d16b4.firebasestorage.app",
+    messagingSenderId: "942812593050",
+    appId: "1:942812593050:web:7188325f7c08b9aedfd823"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Fetch dữ liệu từ API quizs
+async function fetchQuizzes() {
+    try {
+        const response = await fetch('https://67e8f074bdcaa2b7f5b82880.mockapi.io/quizs');
+        const quizzes = await response.json();
+        return quizzes;
+    } catch (error) {
+        console.error('Lỗi khi fetch dữ liệu từ API quizs:', error);
+        return [];
     }
-];
-
-function displayTopics() {
-    const topicsContainer = document.getElementById('topicsContainer');
-    topicsContainer.innerHTML = '';
-
-    topics.forEach((topic, index) => {
-        const topicSection = document.createElement('div');
-        topicSection.classList.add('topic-section');
-        topicSection.innerHTML = `<h2 class="topic-title">${topic.title}</h2>`;
-
-        const subtopicsGrid = document.createElement('div');
-        subtopicsGrid.classList.add('subtopics-grid');
-
-        topic.subtopics.forEach((subtopic, subIndex) => {
-            const topicCard = document.createElement('div');
-            topicCard.classList.add('topic-card');
-            topicCard.style.animationDelay = `${(index * 0.5) + (subIndex * 0.2)}s`;
-            topicCard.innerHTML = `
-                <h3>${subtopic.title}</h3>
-                <p>${subtopic.description}</p>
-                <p>${subtopic.questions} câu hỏi</p>
-            `;
-            topicCard.addEventListener('click', () => startQuiz(subtopic.id));
-            subtopicsGrid.appendChild(topicCard);
-        });
-
-        topicSection.appendChild(subtopicsGrid);
-        topicsContainer.appendChild(topicSection);
-    });
 }
 
-function displayFeaturedTopics() {
-    const featuredGrid = document.getElementById('featuredGrid');
-    const featuredSubtopics = topics.flatMap(topic => 
-        topic.subtopics.filter(subtopic => subtopic.featured)
-    );
+// Hiển thị tất cả quiz (thay cho topics)
+async function displayTopics() {
+    const topicsContainer = document.getElementById('topicsContainer');
+    if (!topicsContainer) return; // Kiểm tra nếu không tìm thấy phần tử
+    topicsContainer.innerHTML = '';
 
-    featuredGrid.innerHTML = '';
-    featuredSubtopics.forEach((subtopic, index) => {
+    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+
+    // Tạo một section duy nhất cho tất cả các quiz
+    const topicSection = document.createElement('div');
+    topicSection.classList.add('topic-section');
+    topicSection.innerHTML = `<h2 class="topic-title">Danh sách Quiz</h2>`;
+
+    const subtopicsGrid = document.createElement('div');
+    subtopicsGrid.classList.add('subtopics-grid');
+
+    quizzes.forEach((quiz, index) => {
         const topicCard = document.createElement('div');
         topicCard.classList.add('topic-card');
         topicCard.style.animationDelay = `${index * 0.2}s`;
         topicCard.innerHTML = `
-            <h3>${subtopic.title}</h3>
-            <p>${subtopic.description}</p>
-            <p>${subtopic.questions} câu hỏi</p>
+            <h3>${quiz.title}</h3>
+            <p>${quiz.questions.length} câu hỏi</p>
         `;
-        topicCard.addEventListener('click', () => startQuiz(subtopic.id));
+        topicCard.addEventListener('click', () => startQuiz(quiz.id));
+        subtopicsGrid.appendChild(topicCard);
+    });
+
+    topicSection.appendChild(subtopicsGrid);
+    topicsContainer.appendChild(topicSection);
+}
+
+// Hiển thị quiz nổi bật (giả định không có thuộc tính featured trong API quizs)
+async function displayFeaturedTopics() {
+    const featuredGrid = document.getElementById('featuredGrid');
+    if (!featuredGrid) return; // Kiểm tra nếu không tìm thấy phần tử
+
+    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    featuredGrid.innerHTML = '';
+
+    // Giả định chọn các quiz có số câu hỏi >= 15 làm nổi bật (hoặc bạn cần thêm logic khác)
+    const featuredQuizzes = quizzes.filter(quiz => quiz.questions.length >= 15);
+
+    featuredQuizzes.forEach((quiz, index) => {
+        const topicCard = document.createElement('div');
+        topicCard.classList.add('topic-card');
+        topicCard.style.animationDelay = `${index * 0.2}s`;
+        topicCard.innerHTML = `
+            <h3>${quiz.title}</h3>
+            <p>${quiz.questions.length} câu hỏi</p>
+        `;
+        topicCard.addEventListener('click', () => startQuiz(quiz.id));
         featuredGrid.appendChild(topicCard);
     });
 }
 
-function displayFeaturedBar() {
+// Hiển thị thanh quiz nổi bật
+async function displayFeaturedBar() {
     const featuredBar = document.getElementById('featuredBar');
-    const featuredSubtopics = topics.flatMap(topic => 
-        topic.subtopics.filter(subtopic => subtopic.featured)
-    );
+    if (!featuredBar) return; // Kiểm tra nếu không tìm thấy phần tử
 
-    featuredSubtopics.forEach(subtopic => {
+    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const featuredQuizzes = quizzes.filter(quiz => quiz.questions.length >= 15); // Giả định nổi bật
+
+    featuredBar.innerHTML = '';
+    featuredQuizzes.forEach(quiz => {
         const tag = document.createElement('div');
         tag.classList.add('featured-tag');
-        tag.textContent = subtopic.title;
-        tag.addEventListener('click', () => filterByFeatured(subtopic.title));
+        tag.textContent = quiz.title;
+        tag.addEventListener('click', () => filterByFeatured(quiz.title));
         featuredBar.appendChild(tag);
     });
 }
 
-function startQuiz(subtopicId) {
-    const subtopic = topics
-        .flatMap(topic => topic.subtopics)
-        .find(st => st.id === subtopicId);
-    alert(`Bắt đầu quiz: ${subtopic.title} với ${subtopic.questions} câu hỏi!`);
+// Chuyển hướng đến trang quiz
+function startQuiz(quizId) {
+    window.location.href = `quiz.html?subtopicId=${quizId}`;
 }
 
-function setupSearchAndFilter() {
+// Thiết lập tìm kiếm và lọc
+async function setupSearchAndFilter() {
     const searchInput = document.getElementById('searchInput');
     const filterSelect = document.getElementById('filterSelect');
+    if (!searchInput || !filterSelect) return; // Kiểm tra nếu không tìm thấy phần tử
 
-    function filterTopics() {
+    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+
+    function filterQuizzes() {
         const searchText = searchInput.value.toLowerCase();
         const filterValue = filterSelect.value;
 
-        const filteredTopics = topics.map(topic => {
-            const filteredSubtopics = topic.subtopics.filter(subtopic => 
-                subtopic.title.toLowerCase().includes(searchText) ||
-                subtopic.description.toLowerCase().includes(searchText)
-            );
-
-            if (filterValue !== 'all') {
-                const questionLimit = parseInt(filterValue);
-                return {
-                    ...topic,
-                    subtopics: filteredSubtopics.filter(subtopic => 
-                        filterValue === '10' ? subtopic.questions < 15 : subtopic.questions >= 15
-                    )
-                };
-            }
-            return { ...topic, subtopics: filteredSubtopics };
-        }).filter(topic => topic.subtopics.length > 0);
-
-        displayFilteredTopics(filteredTopics);
-    }
-
-    searchInput.addEventListener('input', filterTopics);
-    filterSelect.addEventListener('change', filterTopics);
-}
-
-function displayFilteredTopics(filteredTopics) {
-    const topicsContainer = document.getElementById('topicsContainer');
-    topicsContainer.innerHTML = '';
-
-    filteredTopics.forEach((topic, index) => {
-        const topicSection = document.createElement('div');
-        topicSection.classList.add('topic-section');
-        topicSection.innerHTML = `<h2 class="topic-title">${topic.title}</h2>`;
-
-        const subtopicsGrid = document.createElement('div');
-        subtopicsGrid.classList.add('subtopics-grid');
-
-        topic.subtopics.forEach((subtopic, subIndex) => {
-            const topicCard = document.createElement('div');
-            topicCard.classList.add('topic-card');
-            topicCard.style.animationDelay = `${(index * 0.5) + (subIndex * 0.2)}s`;
-            topicCard.innerHTML = `
-                <h3>${subtopic.title}</h3>
-                <p>${subtopic.description}</p>
-                <p>${subtopic.questions} câu hỏi</p>
-            `;
-            topicCard.addEventListener('click', () => startQuiz(subtopic.id));
-            subtopicsGrid.appendChild(topicCard);
+        const filteredQuizzes = quizzes.filter(quiz => 
+            quiz.title.toLowerCase().includes(searchText)
+        ).filter(quiz => {
+            if (filterValue === 'all') return true;
+            const questionLimit = parseInt(filterValue);
+            return filterValue === '10' ? quiz.questions.length < 15 : quiz.questions.length >= 15;
         });
 
-        topicSection.appendChild(subtopicsGrid);
-        topicsContainer.appendChild(topicSection);
-    });
+        displayFilteredTopics(filteredQuizzes);
+    }
+
+    searchInput.addEventListener('input', filterQuizzes);
+    filterSelect.addEventListener('change', filterQuizzes);
 }
 
-function filterByFeatured(title) {
+// Hiển thị quiz đã lọc (thay cho topics)
+function displayFilteredTopics(filteredQuizzes) {
+    const topicsContainer = document.getElementById('topicsContainer');
+    if (!topicsContainer) return; // Kiểm tra nếu không tìm thấy phần tử
+    topicsContainer.innerHTML = '';
+
+    const topicSection = document.createElement('div');
+    topicSection.classList.add('topic-section');
+    topicSection.innerHTML = `<h2 class="topic-title">Danh sách Quiz</h2>`;
+
+    const subtopicsGrid = document.createElement('div');
+    subtopicsGrid.classList.add('subtopics-grid');
+
+    filteredQuizzes.forEach((quiz, index) => {
+        const topicCard = document.createElement('div');
+        topicCard.classList.add('topic-card');
+        topicCard.style.animationDelay = `${index * 0.2}s`;
+        topicCard.innerHTML = `
+            <h3>${quiz.title}</h3>
+            <p>${quiz.questions.length} câu hỏi</p>
+        `;
+        topicCard.addEventListener('click', () => startQuiz(quiz.id));
+        subtopicsGrid.appendChild(topicCard);
+    });
+
+    topicSection.appendChild(subtopicsGrid);
+    topicsContainer.appendChild(topicSection);
+}
+
+// Lọc theo quiz nổi bật
+async function filterByFeatured(title) {
     const tags = document.querySelectorAll('.featured-tag');
     tags.forEach(tag => tag.classList.remove('active'));
     event.target.classList.add('active');
 
-    const filteredTopics = topics.map(topic => {
-        const filteredSubtopics = topic.subtopics.filter(subtopic => 
-            title === 'all' || subtopic.title === title
-        );
-        return { ...topic, subtopics: filteredSubtopics };
-    }).filter(topic => topic.subtopics.length > 0);
+    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const filteredQuizzes = title === 'all' ? quizzes : quizzes.filter(quiz => quiz.title === title);
 
-    displayFilteredTopics(filteredTopics);
+    displayFilteredTopics(filteredQuizzes);
 }
 
+// Khởi tạo khi trang tải
 document.addEventListener('DOMContentLoaded', () => {
+    // Hiển thị nội dung trang chủ
     displayTopics();
     displayFeaturedTopics();
     displayFeaturedBar();
     setupSearchAndFilter();
-});
 
-//
-// script.js (chỉ cập nhật hàm startQuiz)
-function startQuiz(subtopicId) {
-    window.location.href = `quiz.html?subtopicId=${subtopicId}`;
-}
+    // Kiểm tra trạng thái đăng nhập
+    onAuthStateChanged(auth, (user) => {
+        const authSection = document.querySelector('.auth-section');
+        if (!authSection) return; // Kiểm tra nếu không tìm thấy phần tử
+
+        if (user) {
+            // Người dùng đã đăng nhập
+            authSection.innerHTML = ''; // Xóa nút đăng nhập và đăng ký
+            const createQuizBtn = document.createElement('button');
+            createQuizBtn.textContent = 'Tạo Quiz';
+            createQuizBtn.classList.add('signup-btn');
+            createQuizBtn.addEventListener('click', () => {
+                window.location.href = 'createquiz.html';
+            });
+            authSection.appendChild(createQuizBtn);
+        }
+        // Nếu không có user, giữ nguyên nút "Đăng nhập" và "Đăng ký" từ HTML
+    });
+});

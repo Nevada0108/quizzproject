@@ -1,63 +1,31 @@
-// quiz.js
-// Dữ liệu mẫu cho các câu hỏi (có thể mở rộng)
-const quizData = {
-    11: { // Văn hóa
-        title: "Văn hóa",
-        questions: [
-            { question: "Đâu là thủ đô của Nhật Bản?", options: ["A. Tokyo", "B. Osaka", "C. Kyoto", "D. Hiroshima"], answer: "A" },
-            { question: "Món ăn truyền thống của Việt Nam là gì?", options: ["A. Sushi", "B. Phở", "C. Pizza", "D. Hamburger"], answer: "B" }
-        ]
-    },
-    12: { // Lịch sử
-        title: "Lịch sử",
-        questions: [
-            { question: "Ai là vị vua đầu tiên của Việt Nam?", options: ["A. Lý Thái Tổ", "B. Hùng Vương", "C. Trần Hưng Đạo", "D. Nguyễn Huệ"], answer: "B" }
-        ]
-    },
-    21: { // Hình học
-        title: "Hình học",
-        questions: [
-            { question: "Tổng các góc trong tam giác bằng bao nhiêu độ?", options: ["A. 90", "B. 180", "C. 360", "D. 270"], answer: "B" }
-        ]
-    },
-    22: { // Toán số
-        title: "Toán số",
-        questions: [
-            { question: "2 + 2 bằng bao nhiêu?", options: ["A. 3", "B. 4", "C. 5", "D. 6"], answer: "B" }
-        ]
-    },
-    31: { // Lập trình
-        title: "Lập trình",
-        questions: [
-            { question: "Ngôn ngữ lập trình nào phổ biến nhất?", options: ["A. Python", "B. Java", "C. C++", "D. Ruby"], answer: "A" }
-        ]
-    },
-    41: { // Ngữ pháp
-        title: "Ngữ pháp",
-        questions: [
-            { question: "Đâu là thì hiện tại đơn?", options: ["A. I go", "B. I went", "C. I will go", "D. I am going"], answer: "A" }
-        ]
-    },
-    42: { // Từ vựng
-        title: "Từ vựng",
-        questions: [
-            { question: "Từ 'Happy' nghĩa là gì?", options: ["A. Buồn", "B. Vui", "C. Tức giận", "D. Mệt mỏi"], answer: "B" }
-        ]
-    }
-};
-
 let currentQuestionIndex = 0;
 let selectedOption = null;
 let timeLeft = 60;
 let timerInterval;
 
-document.addEventListener('DOMContentLoaded', () => {
+async function fetchQuiz(subtopicId) {
+    try {
+        const response = await fetch('https://67e8f074bdcaa2b7f5b82880.mockapi.io/quizs');
+        const quizzes = await response.json();
+        const quiz = quizzes.find(q => q.id == parseInt(subtopicId));
+        if (!quiz) {
+            console.warn(`Không tìm thấy quiz với subtopicId=${subtopicId}`);
+        }
+        return quiz;
+    } catch (error) {
+        console.error('Lỗi khi fetch dữ liệu từ API quizs:', error);
+        return null;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const subtopicId = urlParams.get('subtopicId');
-    const quiz = quizData[subtopicId];
+
+    const quiz = await fetchQuiz(subtopicId);
 
     if (!quiz) {
-        document.getElementById('questionText').textContent = "Không tìm thấy quiz!";
+        document.getElementById('questionText').textContent = `Không tìm thấy quiz với ID ${subtopicId}!`;
         return;
     }
 
@@ -65,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('totalQuestions').textContent = quiz.questions.length;
     loadQuestion(quiz);
 
-    // Khởi động đồng hồ
     timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById('timeLeft').textContent = timeLeft;
@@ -105,8 +72,10 @@ function selectOption(optionElement, correctAnswer, index) {
     document.getElementById('nextBtn').disabled = false;
 }
 
-document.getElementById('nextBtn').addEventListener('click', () => {
-    const quiz = quizData[new URLSearchParams(window.location.search).get('subtopicId')];
+document.getElementById('nextBtn').addEventListener('click', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const subtopicId = urlParams.get('subtopicId');
+    const quiz = await fetchQuiz(subtopicId);
     const question = quiz.questions[currentQuestionIndex];
 
     if (selectedOption === question.answer) {

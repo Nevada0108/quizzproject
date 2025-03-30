@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Quiz - Quiz Game</title>
+    <link rel="stylesheet" href="./createquiz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="logo">🎉 Quiz Game</h1>
+            <div class="auth-section">
+                <button class="login-btn" onclick="window.location.href='login.html'">Đăng nhập</button>
+                <button class="signup-btn">Đăng ký</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">✨ Tạo Quiz Của Bạn ✨</h2>
+        <form id="quizForm" class="topic-card p-4 mx-auto" style="max-width: 600px;">
+            <!-- Thêm trường nhập tiêu đề -->
+            <div class="mb-3">
+                <label for="quizTitleInput" class="form-label fw-bold">Tiêu đề Quiz:</label>
+                <input type="text" class="form-control" id="quizTitleInput" placeholder="Nhập tiêu đề quiz" required>
+            </div>
+            <div class="mb-3">
+                <label for="quizQuestions" class="form-label fw-bold">Số câu hỏi:</label>
+                <input type="number" class="form-control" id="quizQuestions" min="1" max="50" placeholder="Nhập số câu hỏi" required>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="quizTime" class="form-label fw-bold">Thời gian trả lời (giây):</label>
+                <input type="number" class="form-control" id="quizTime" min="10" placeholder="Thời gian cho toàn bộ quiz" required>
+            </div> -->
+
+            <!-- Khu vực nhập câu hỏi -->
+            <div id="questionContainer">
+                <div class="question-block mb-4" data-question="1">
+                    <h3>Câu hỏi 1</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Nội dung câu hỏi:</label>
+                        <textarea class="form-control" rows="2" placeholder="Nhập câu hỏi..." required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Đáp án A:</label>
+                            <input type="text" class="form-control answer-input" placeholder="Đáp án A" required>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="A">Chọn đúng</button>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Đáp án B:</label>
+                            <input type="text" class="form-control answer-input" placeholder="Đáp án B" required>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="B">Chọn đúng</button>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Đáp án C:</label>
+                            <input type="text" class="form-control answer-input" placeholder="Đáp án C" required>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="C">Chọn đúng</button>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label">Đáp án D:</label>
+                            <input type="text" class="form-control answer-input" placeholder="Đáp án D" required>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="D">Chọn đúng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nút điều khiển -->
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn login-btn" id="nextQuestion">Câu hỏi tiếp theo</button>
+                <button type="submit" class="btn signup-btn">Hoàn tất</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./createquiz.js"></script>
+</body>
+</html>

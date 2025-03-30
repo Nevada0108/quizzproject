@@ -1,28 +1,22 @@
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-    import {
-        getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-        sendEmailVerification, signOut, onAuthStateChanged
-    }
-        from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-    
-    
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCNOAnAd3eilEIz88EZYLwRQmQi2gIYpp0",
-      authDomain: "spck-jsi-d16b4.firebaseapp.com",
-      databaseURL: "https://spck-jsi-d16b4-default-rtdb.firebaseio.com",
-      projectId: "spck-jsi-d16b4",
-      storageBucket: "spck-jsi-d16b4.firebasestorage.app",
-      messagingSenderId: "942812593050",
-      appId: "1:942812593050:web:7188325f7c08b9aedfd823"
-    };
+// login.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import {
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCNOAnAd3eilEIz88EZYLwRQmQi2gIYpp0",
+    authDomain: "spck-jsi-d16b4.firebaseapp.com",
+    databaseURL: "https://spck-jsi-d16b4-default-rtdb.firebaseio.com",
+    projectId: "spck-jsi-d16b4",
+    storageBucket: "spck-jsi-d16b4.firebasestorage.app",
+    messagingSenderId: "942812593050",
+    appId: "1:942812593050:web:7188325f7c08b9aedfd823"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 
 const showMessage = (element, message, isError = true) => {
@@ -44,91 +38,53 @@ const handleError = (error, errorElement) => {
 };
 
 export const initLogin = () => {
-
-    // Lấy các DOM dữ liệu cần thiết
     const elements = {
         form: document.getElementById('loginForm'),
         error: document.getElementById('errorMessage'),
-        succsess: document.getElementById('successMessage'),
+        success: document.getElementById('successMessage'),
         registerLink: document.getElementById('registerLink'),
         email: document.getElementById('email'),
         password: document.getElementById('password')
     };
 
-    // Xử lý submit form đăng nhập
     elements.form.addEventListener('submit', async (e) => {
         e.preventDefault();
         elements.error.style.display = 'none';
-        elements.succsess.style.display = 'none';
+        elements.success.style.display = 'none';
 
         try {
-            // Đăng nhập người dùng
             const userCredential = await signInWithEmailAndPassword(
                 auth,
                 elements.email.value,
                 elements.password.value
             );
-
-            // Đăng nhập thành công, chuyển hướng sau 1 giây
-            showMessage(elements.succsess, 'Đăng nhập thành công', false);
+            showMessage(elements.success, 'Đăng nhập thành công', false);
             setTimeout(() => window.location.href = 'index.html', 1000);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             handleError(error, elements.error);
         }
     });
 
-    // Chuyển hướng đến trang đăng ký
     elements.registerLink.addEventListener('click', () => {
         window.location.href = 'register.html';
     });
-}
+};
 
-export const initRegister = () => {
-
-    // Lấy các DOM dữ liệu cần thiết
-    const elements = {
-        form: document.getElementById('registerForm'),
-        error: document.getElementById('errorMessage'),
-        succsess: document.getElementById('successMessage'),
-        email: document.getElementById('email'),
-        password: document.getElementById('password'),
-        loginLink: document.getElementById('loginLink'),
-        verificationSection: document.getElementById('verificationSection'),
-        resendEmail: document.getElementById('resendemail')
-    }
-
-    // Để hiện tại khong có người dùng
-    let currentUser = null;
-
-    // Kiểm tra form
-    if (elements.form) {
-        elements.form.addEventListener('submit', async (e) => {
-            e.preventDefault()
-            try {
-
-                // Code xử lý đăng ký
-                const userCredential = await createUserWithEmailAndPassword(
-                    auth,
-                    elements.email.value,
-                    document.getElementById('password').value
-                );
-
-                currentUser = userCredential.user;
-                await sendEmailVerification(currentUser);
-                elements.form.style.display = 'none';
-                elements.verificationSection.style.display = 'block';
-                showMessage(
-                    elements.succsess,
-                    'Đã đăng ký thành công! Vui lòng kiểm tra email xác nhận',
-                    false
-                )
-                setTimeout(() => window.location.href = 'login.html', 1000);
-
-            } catch (error) {
-                    handleError(error, elements.error);
-
+// Kiểm tra trạng thái đăng nhập khi tải trang
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Người dùng đã đăng nhập
+        const authSection = document.querySelector('.auth-section');
+        if (authSection) {
+            authSection.innerHTML = ''; // Xóa nút đăng nhập và đăng ký
+            const createQuizBtn = document.createElement('button');
+            createQuizBtn.textContent = 'Tạo Quiz';
+            createQuizBtn.classList.add('signup-btn'); // Dùng class signup-btn cho kiểu dáng
+            createQuizBtn.addEventListener('click', () => {
+                window.location.href = 'create-quiz.html';
+            });
+            authSection.appendChild(createQuizBtn);
+        }
     }
 });
-    }
-}
