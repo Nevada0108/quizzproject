@@ -240,34 +240,86 @@ body {
 .dot2 { width: 15px; height: 15px; top: 70%; left: 80%; animation-delay: 1s; }
 .dot3 { width: 25px; height: 25px; top: 50%; left: 5%; animation-delay: 2s; }
 
-/* Footer (giữ nguyên) */
+/* Footer */
 .main-footer {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    color: white;
-    text-align: center;
+    background: rgba(255, 255, 255, 0.95); /* Màu nền sáng hơn */
+    padding: 40px 20px;
+    color: #333; /* Đổi màu chữ sang tối hơn để tương phản với nền sáng */
+    text-align: left;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ để nổi bật */
 }
 
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    align-items: start;
 }
 
-.footer-links a {
-    color: white;
-    margin-left: 20px;
+.footer-section {
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ff6b6b; /* Giữ màu logo */
+    margin-bottom: 10px;
+}
+
+.footer-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #ff6b6b; /* Giữ màu tiêu đề */
+}
+
+.footer-section p, .footer-section a {
+    font-size: 0.9rem;
+    color: #555; /* Màu chữ tối hơn để dễ đọc */
+    margin-bottom: 8px;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.footer-links a:hover {
+.footer-section a:hover {
     color: #ff6b6b;
 }
 
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #555; /* Màu chữ tối hơn */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ff6b6b;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    color: #ff6b6b; /* Đổi màu biểu tượng mạng xã hội */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #e55a5a; /* Màu hover nhạt hơn */
+}
 /* Animations (giữ nguyên) */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }

@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Kiểm tra trạng thái đăng nhập
     onAuthStateChanged(auth, (user) => {
         const authSection = document.querySelector('.auth-section');
-        if (!authSection) return; // Kiểm tra nếu không tìm thấy phần tử
+        if (!authSection) return;
 
         if (user) {
             // Người dùng đã đăng nhập
@@ -198,7 +198,16 @@ document.addEventListener('DOMContentLoaded', () => {
             createQuizBtn.addEventListener('click', () => {
                 window.location.href = 'createquiz.html';
             });
+
+            const manageBtn = document.createElement('button'); // Nút Quản lý mới
+            manageBtn.textContent = 'Quản lý';
+            manageBtn.classList.add('signup-btn');
+            manageBtn.addEventListener('click', () => {
+                window.location.href = 'dashboard.html';
+            });
+
             authSection.appendChild(createQuizBtn);
+            authSection.appendChild(manageBtn); // Thêm nút Quản lý bên cạnh
         }
         // Nếu không có user, giữ nguyên nút "Đăng nhập" và "Đăng ký" từ HTML
     });

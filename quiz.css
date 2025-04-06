@@ -1,4 +1,3 @@
-/* quiz.css */
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +12,8 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
 .quiz-header {
@@ -117,4 +118,54 @@ body {
 .progress span {
     color: #ff6b6b;
     font-weight: 600;
+}
+
+/* Hiệu ứng pháo hoa */
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#fireworks.active {
+    opacity: 1;
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    animation: explode 1s ease-out infinite;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Hiệu ứng rung khi sai */
+.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
 }

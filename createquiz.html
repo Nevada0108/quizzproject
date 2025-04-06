@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <header class="main-header">
         <div class="header-content">
@@ -29,7 +31,8 @@
             </div>
             <div class="mb-3">
                 <label for="quizQuestions" class="form-label fw-bold">Số câu hỏi:</label>
-                <input type="number" class="form-control" id="quizQuestions" min="1" max="50" placeholder="Nhập số câu hỏi" required>
+                <input type="number" class="form-control" id="quizQuestions" min="1" max="50"
+                    placeholder="Nhập số câu hỏi" required>
             </div>
             <!-- <div class="mb-3">
                 <label for="quizTime" class="form-label fw-bold">Thời gian trả lời (giây):</label>
@@ -48,22 +51,26 @@
                         <div class="col-md-6 mb-2">
                             <label class="form-label">Đáp án A:</label>
                             <input type="text" class="form-control answer-input" placeholder="Đáp án A" required>
-                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="A">Chọn đúng</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn"
+                                data-answer="A">Chọn đúng</button>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label class="form-label">Đáp án B:</label>
                             <input type="text" class="form-control answer-input" placeholder="Đáp án B" required>
-                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="B">Chọn đúng</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn"
+                                data-answer="B">Chọn đúng</button>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label class="form-label">Đáp án C:</label>
                             <input type="text" class="form-control answer-input" placeholder="Đáp án C" required>
-                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="C">Chọn đúng</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn"
+                                data-answer="C">Chọn đúng</button>
                         </div>
                         <div class="col-md-6 mb-2">
                             <label class="form-label">Đáp án D:</label>
                             <input type="text" class="form-control answer-input" placeholder="Đáp án D" required>
-                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn" data-answer="D">Chọn đúng</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-1 correct-btn"
+                                data-answer="D">Chọn đúng</button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +78,9 @@
 
             <!-- Nút điều khiển -->
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn login-btn" id="nextQuestion">Câu hỏi tiếp theo</button>
+                <div>
+                    <button type="button" class="btn login-btn" id="nextQuestion">Câu hỏi tiếp theo</button>
+                </div>
                 <button type="submit" class="btn signup-btn">Hoàn tất</button>
             </div>
         </form>
@@ -80,4 +89,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./createquiz.js"></script>
 </body>
+
 </html>
