@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -29,15 +29,14 @@ async function fetchQuizzes() {
     }
 }
 
-// Hiển thị tất cả quiz (thay cho topics)
+// Hiển thị tất cả quiz
 async function displayTopics() {
     const topicsContainer = document.getElementById('topicsContainer');
-    if (!topicsContainer) return; // Kiểm tra nếu không tìm thấy phần tử
+    if (!topicsContainer) return;
     topicsContainer.innerHTML = '';
 
-    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const quizzes = await fetchQuizzes();
 
-    // Tạo một section duy nhất cho tất cả các quiz
     const topicSection = document.createElement('div');
     topicSection.classList.add('topic-section');
     topicSection.innerHTML = `<h2 class="topic-title">Danh sách Quiz</h2>`;
@@ -61,16 +60,15 @@ async function displayTopics() {
     topicsContainer.appendChild(topicSection);
 }
 
-// Hiển thị quiz nổi bật (giả định không có thuộc tính featured trong API quizs)
+// Hiển thị quiz nổi bật
 async function displayFeaturedTopics() {
     const featuredGrid = document.getElementById('featuredGrid');
-    if (!featuredGrid) return; // Kiểm tra nếu không tìm thấy phần tử
+    if (!featuredGrid) return;
 
-    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const quizzes = await fetchQuizzes();
     featuredGrid.innerHTML = '';
 
-    // Giả định chọn các quiz có số câu hỏi >= 15 làm nổi bật (hoặc bạn cần thêm logic khác)
-    const featuredQuizzes = quizzes.filter(quiz => quiz.questions.length >= 15);
+    const featuredQuizzes = quizzes.filter(quiz => quiz.hot == true);
 
     featuredQuizzes.forEach((quiz, index) => {
         const topicCard = document.createElement('div');
@@ -85,24 +83,6 @@ async function displayFeaturedTopics() {
     });
 }
 
-// Hiển thị thanh quiz nổi bật
-async function displayFeaturedBar() {
-    const featuredBar = document.getElementById('featuredBar');
-    if (!featuredBar) return; // Kiểm tra nếu không tìm thấy phần tử
-
-    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
-    const featuredQuizzes = quizzes.filter(quiz => quiz.questions.length >= 15); // Giả định nổi bật
-
-    featuredBar.innerHTML = '';
-    featuredQuizzes.forEach(quiz => {
-        const tag = document.createElement('div');
-        tag.classList.add('featured-tag');
-        tag.textContent = quiz.title;
-        tag.addEventListener('click', () => filterByFeatured(quiz.title));
-        featuredBar.appendChild(tag);
-    });
-}
-
 // Chuyển hướng đến trang quiz
 function startQuiz(quizId) {
     window.location.href = `quiz.html?subtopicId=${quizId}`;
@@ -112,9 +92,9 @@ function startQuiz(quizId) {
 async function setupSearchAndFilter() {
     const searchInput = document.getElementById('searchInput');
     const filterSelect = document.getElementById('filterSelect');
-    if (!searchInput || !filterSelect) return; // Kiểm tra nếu không tìm thấy phần tử
+    if (!searchInput || !filterSelect) return;
 
-    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const quizzes = await fetchQuizzes();
 
     function filterQuizzes() {
         const searchText = searchInput.value.toLowerCase();
@@ -135,10 +115,10 @@ async function setupSearchAndFilter() {
     filterSelect.addEventListener('change', filterQuizzes);
 }
 
-// Hiển thị quiz đã lọc (thay cho topics)
+// Hiển thị quiz đã lọc
 function displayFilteredTopics(filteredQuizzes) {
     const topicsContainer = document.getElementById('topicsContainer');
-    if (!topicsContainer) return; // Kiểm tra nếu không tìm thấy phần tử
+    if (!topicsContainer) return;
     topicsContainer.innerHTML = '';
 
     const topicSection = document.createElement('div');
@@ -170,7 +150,7 @@ async function filterByFeatured(title) {
     tags.forEach(tag => tag.classList.remove('active'));
     event.target.classList.add('active');
 
-    const quizzes = await fetchQuizzes(); // Lấy dữ liệu từ API quizs
+    const quizzes = await fetchQuizzes();
     const filteredQuizzes = title === 'all' ? quizzes : quizzes.filter(quiz => quiz.title === title);
 
     displayFilteredTopics(filteredQuizzes);
@@ -178,20 +158,16 @@ async function filterByFeatured(title) {
 
 // Khởi tạo khi trang tải
 document.addEventListener('DOMContentLoaded', () => {
-    // Hiển thị nội dung trang chủ
     displayTopics();
     displayFeaturedTopics();
-    displayFeaturedBar();
     setupSearchAndFilter();
 
-    // Kiểm tra trạng thái đăng nhập
     onAuthStateChanged(auth, (user) => {
         const authSection = document.querySelector('.auth-section');
         if (!authSection) return;
 
         if (user) {
-            // Người dùng đã đăng nhập
-            authSection.innerHTML = ''; // Xóa nút đăng nhập và đăng ký
+            authSection.innerHTML = '';
             const createQuizBtn = document.createElement('button');
             createQuizBtn.textContent = 'Tạo Quiz';
             createQuizBtn.classList.add('signup-btn');
@@ -199,16 +175,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'createquiz.html';
             });
 
-            const manageBtn = document.createElement('button'); // Nút Quản lý mới
+            const manageBtn = document.createElement('button');
             manageBtn.textContent = 'Quản lý';
             manageBtn.classList.add('signup-btn');
             manageBtn.addEventListener('click', () => {
                 window.location.href = 'dashboard.html';
             });
 
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Đăng xuất';
+            logoutBtn.classList.add('logout-btn');
+            logoutBtn.addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi khi đăng xuất:', error);
+                    });
+            });
+
             authSection.appendChild(createQuizBtn);
-            authSection.appendChild(manageBtn); // Thêm nút Quản lý bên cạnh
+            authSection.appendChild(manageBtn);
+            authSection.appendChild(logoutBtn);
         }
-        // Nếu không có user, giữ nguyên nút "Đăng nhập" và "Đăng ký" từ HTML
     });
 });
