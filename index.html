@@ -1,92 +1,113 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Game - Vui Học Mỗi Ngày</title>
-    <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header class="main-header">
-        <div class="header-content">
-            <h1 class="logo">🎉 Quiz Game</h1>
-            <div class="auth-section">
-                <button class="login-btn" onclick="window.location.href='login.html'">Đăng nhập</button>
-                <button class="signup-btn">Đăng ký</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz Game - Vui Học Mỗi Ngày</title>
+        <link rel="stylesheet" href="./style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;700&family=Noto+Sans:wght@400;700&subset=latin-ext,vietnamese&display=swap" rel="stylesheet">    
+    </head>
+    <body>
+        <header class="main-header">
+        <div class="header-top">
+            <!-- Logo liên kết về trang chủ -->
+            <a href="index.html" class="logo-link">
+                <h1 class="logo">🎉 ĐỐ AI BIẾT</h1>
+            </a>
+            <div class="slogan-container">
+                <marquee behavior="scroll" direction="right" scrollamount="6" class="slogan-marquee">
+                    Vui Học Mỗi Ngày - Khám Phá Kiến Thức Thú Vị!
+                </marquee>
             </div>
         </div>
-    </header>
-
-    <div class="container">
-        <div class="search-filter">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm chủ đề...">
-            <select id="filterSelect">
-                <option value="all">Tất cả</option>
-                <option value="10">Dưới 15 câu</option>
-                <option value="15">15 câu trở lên</option>
-            </select>
-        </div>
-
-        <div class="featured-bar" id="featuredBar">
-            <!-- Thanh chủ đề nổi bật -->
-        </div>
-
-        <section class="featured-section">
-            <h2 class="section-title">✨ Chủ đề nổi bật ✨</h2>
-            <div class="featured-grid" id="featuredGrid">
-                <!-- Chủ đề nổi bật -->
-            </div>
-        </section>
-
-        <h2 class="subtitle">Chọn chủ đề và bắt đầu thử thách nào!</h2>
-        <div class="topics-container" id="topicsContainer">
-            <!-- Chủ đề chính và chủ đề nhỏ -->
-        </div>
-
-        <div class="decoration">
-            <span class="dot dot1"></span>
-            <span class="dot dot2"></span>
-            <span class="dot dot3"></span>
-        </div>
-    </div>
-
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h3 class="footer-logo">🎉 Quiz Game</h3>
-                <p>Vui học mỗi ngày - Nơi thử thách kiến thức và giải trí đỉnh cao!</p>
-                <p>&copy; 2025 Quiz Game. Tất cả quyền được bảo lưu.</p>
-            </div>
-            <div class="footer-section links">
-                <h4>Liên kết nhanh</h4>
-                <ul>
-                    <li><a href="#">Trang chủ</a></li>
-                    <li><a href="#">Giới thiệu</a></li>
-                    <li><a href="#">Liên hệ</a></li>
-                    <li><a href="#">Điều khoản sử dụng</a></li>
-                    <li><a href="#">Chính sách bảo mật</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact">
-                <h4>Liên hệ với chúng tôi</h4>
-                <p>Email: <a href="mailto:support@quizgame.vn">support@quizgame.vn</a></p>
-                <p>Hotline: 1900 1234</p>
-                <p>Địa chỉ: 123 Đường Kiến Thức, TP. Học Tập, Việt Nam</p>
-            </div>
-            <div class="footer-section social">
-                <h4>Theo dõi chúng tôi</h4>
-                <div class="social-links">
-                    <a href="#" class="social-icon">📘</a>
-                    <a href="#" class="social-icon">🐦</a>
-                    <a href="#" class="social-icon">📸</a>
-                    <a href="#" class="social-icon">▶️</a>
+        <nav class="sub-header">
+            <!-- Thanh tìm kiếm và filter -->
+            <div class="search-section">
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm chủ đề...">
+                    <select id="filterSelect">
+                        <option value="all">Tất cả</option>
+                        <option value="10">Dưới 15 câu</option>
+                        <option value="15">15 câu trở lên</option>
+                    </select>
                 </div>
             </div>
+            <!-- Auth section -->
+            <div class="auth-section">
+                <button class="login-btn" onclick="window.location.href='login.html'">Đăng nhập</button>
+                <button class="signup-btn" onclick="window.location.href='register.html'">Đăng ký</button>
+            </div>
+        </nav>
+    </header>
+
+
+        <div class="container">
+            <div class="featured-bar" id="featuredBar">
+                <!-- Thanh chủ đề nổi bật -->
+            </div>
+
+            <section class="featured-section">
+                <h2 class="section-title">✨ Chủ đề nổi bật ✨</h2>
+                <div class="featured-grid" id="featuredGrid">
+                    <!-- Chủ đề nổi bật -->
+                </div>
+            </section>
+
+            <h2 class="subtitle">Chọn chủ đề và bắt đầu thử thách nào!</h2>
+            <div class="topics-container" id="topicsContainer">
+                <!-- Chủ đề chính và chủ đề nhỏ -->
+            </div>
+
+            <div class="decoration">
+                <span class="dot dot1"></span>
+                <span class="dot dot2"></span>
+                <span class="dot dot3"></span>
+                <span class="dot dot4"></span>
+                <span class="dot dot5"></span>
+                <span class="dot dot6"></span>
+            </div>
         </div>
-    </footer>
-    <!-- Sửa thẻ script để dùng module -->
-    <script type="module" src="script.js"></script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'924c6ece9ab753b2',t:'MTc0MjcxNzIyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-</body>
+
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3 class="footer-logo">🎉 Đố Ai Biết</h3>
+                    <p>Vui học mỗi ngày - Nơi thử thách kiến thức và giải trí đỉnh cao!</p>
+                    <p>&copy; 2025 Đố Ai Biết. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="footer-section links">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="#">Giới thiệu</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h4>Liên hệ với chúng tôi</h4>
+                    <p>Email: nobodyknow0108@gmail.com</p>
+                    <p>Hotline: 1900 1234</p>
+                    <p>Địa chỉ: 123 Đường Kiến Thức, TP. Học Tập, Việt Nam</p>
+                </div>
+                <div class="footer-section social">
+                    <h4>Theo dõi chúng tôi</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">🐦</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">▶️</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script type="module" src="script.js"></script>
+        <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'924c6ece9ab753b2',t:'MTc0MjcxNzIyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+        <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92f43a4e2c9542f0',t:'MTc0NDQ3NjY3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+        <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92f45cbc785f0870',t:'MTc0NDQ3ODA4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    </body>
 </html>
